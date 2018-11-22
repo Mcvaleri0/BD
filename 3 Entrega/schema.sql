@@ -19,6 +19,7 @@ drop table if exists Alocado cascade;
 drop table if exists Acciona cascade;
 drop table if exists Coordenador cascade;
 drop table if exists Audita cascade;
+drop table if exists Solicita cascade;
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -44,7 +45,7 @@ create table Video (
 
 create table SegmentoVideo (
 	numSegmento integer,
-	duracao integer,
+	duracao interval,
 	dataHoraInicio timestamp,
 	numCamara integer,
 	primary key (numSegmento, dataHoraInicio, numCamara),

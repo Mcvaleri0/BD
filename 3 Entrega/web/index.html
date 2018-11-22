@@ -1,0 +1,145 @@
+<html>
+    <body style="font-family:Helvetica; font-size: 20px; color: rgb(0, 0, 0);">
+        
+        <h1 style="font-size: 40px; color: rgb(175, 40, 35);">|SGIF| <span style="font-size: 28px; font-weight:normal; color: rgb(0, 0, 0);">Database Interface</span></h1>
+        
+        <!--Locais-->
+        <div onclick="myFunction(this,'Locais_div')" class="tab">&#9656 Locais </div>
+        <div id="Locais_div" style="display: none;">
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
+        </div>
+
+        <!--Eventos de Emergência  ê -->
+        <div onclick="myFunction(this,'Eventos_div')" class="tab">&#9656 Eventos de Emerg&ecircncia </div>
+        <div id="Eventos_div" style="display: none;">
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
+        </div>
+
+        <!--Processos de Socorro-->
+        <div onclick="myFunction(this,'Processos_div')" class="tab">&#9656 Processos de Socorro </div>
+        <div id="Processos_div" style="display: none;">
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar um meio </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar um evento de emerg&ecircncia </div></a>
+                <a href='listaprocessos.php' style=" text-decoration: none;"> <div class="option"> Listar todos </div></a>
+        </div>
+
+        <!--Entidades-->
+        <div onclick="myFunction(this,'Entidades_div')" class="tab">&#9656 Entidades </div>
+        <div id="Entidades_div" style="display: none;">
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
+        </div>
+
+        <!--Meios-->
+        <div onclick="myFunction(this,'Meios_div')" class="tab">&#9656 Meios </div>
+        <div id="Meios_div" style="display: none;">
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
+                <a href='listameios.php ' style=" text-decoration: none;"> <div class="option"> Listar todos </div></a>
+                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Listar accionados em processo de socorro </div></a>
+                
+                <!--Combate-->
+                <div onclick="myFunction(this,'Combate_div')" class="tab2">&#9656 Combate </div>
+                <div id="Combate_div" style="display: none;">
+                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
+                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
+                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                </div>
+
+                <!--Apoio-->
+                 <div onclick="myFunction(this,'Apoio_div')" class="tab2">&#9656 Apoio </div>
+                 <div id="Apoio_div" style="display: none;">
+                         <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
+                         <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
+                         <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                 </div>
+
+                <!--Socorro-->
+                <div onclick="myFunction(this,'Socorro_div')" class="tab2">&#9656 Socorro </div>
+                <div id="Socorro_div" style="display: none;">
+                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
+                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
+                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Listar acionados em processos de socorro originados em local </div></a>
+                </div>
+                
+        </div>
+
+
+    </body>
+</html>
+
+<script>
+    //collapse expand function
+    function myFunction(a,divname) {
+        var x = document.getElementById(divname);
+        if (x.style.display === "none") {
+            a.innerHTML = "&#9662" + a.innerHTML.substring(1);
+            x.style.display = "block";
+        } else {
+            a.innerHTML = "&#9656" + a.innerHTML.substring(1);
+            x.style.display = "none";
+        }
+    }
+</script>
+
+<style>
+    .tab{
+        cursor: pointer; 
+        font-size: 20px; 
+        color: white; 
+        background-color: rgb(179, 179, 179);
+        width: 350px;
+        user-select: none;
+        padding: 5px;
+        outline-style: auto;
+    }
+
+    .tab:hover{
+        
+        background-color: rgb(151, 151, 151);
+    }
+
+    .tab2{
+        margin-left: 20px;
+        cursor: pointer; 
+        font-size: 20px; 
+        color: white; 
+        background-color: rgb(179, 179, 179);
+        width: 330px;
+        user-select: none;
+        padding: 5px;   
+        outline-style: auto;
+    }
+
+    .tab2:hover{
+        
+        background-color: rgb(151, 151, 151);
+    }
+
+    .option{
+        margin-left: 20px;
+        padding: 5px;
+        border: 5px;
+        color: rgb(0, 0, 0);
+        font-size: 16px; 
+        width: 330px;
+    }
+    .option2{
+        margin-left: 40px;
+        width: 310px;
+    }
+
+    .option:hover{
+        color: rgb(199, 0, 0);
+        background-color: rgb(230, 230, 230);
+    }
+</style>
+
+

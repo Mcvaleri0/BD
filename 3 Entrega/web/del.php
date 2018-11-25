@@ -30,10 +30,13 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("DELETE FROM Local WHERE moradaLocal = :moradaLocal;");
                     $prep->bindParam(':moradaLocal', $_REQUEST['moradaLocal']);
                     $prep->execute();
 
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -56,6 +59,8 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     date_default_timezone_set('UTC');
                     $instanteChamada    = $_REQUEST['instanteChamada'];
                     $instanteChamada    = date("d-m-Y H:i:s",strtotime($instanteChamada));
@@ -65,6 +70,7 @@
                     $prep->bindParam(':instanteChamada',    $instanteChamada);
                     $prep->execute();
 
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -87,10 +93,13 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("DELETE FROM ProcessoSocorro WHERE numProcessoSocorro = :numProcessoSocorro");
                     $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
                     $prep->execute();
 
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -111,10 +120,14 @@
                 ");
 
                 if($submited == "yes"){
+
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("DELETE FROM EntidadeMeio WHERE nomeentidade = :nomeentidade");
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
                     $prep->execute();
                     
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -137,11 +150,14 @@
 
                 if($submited == "yes"){
                
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("DELETE FROM Meio WHERE nummeio = :nummeio AND nomeentidade = :nomeentidade;");
                     $prep->bindParam(':nummeio',      $_REQUEST['nummeio']);
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
                     $prep->execute();
 
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -182,12 +198,16 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("DELETE FROM $tabelaMeio WHERE nummeio = :nummeio AND nomeentidade = :nomeentidade;");
                     
                     $prep->bindParam(':nummeio',      $_REQUEST['nummeio']);
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
 
                     $prep->execute();
+
+                    $db->commit();
 
                     $db   = null;
                     $prep = null;

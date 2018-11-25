@@ -30,11 +30,10 @@
 
                 if($submited == "yes"){
 
-                    $prep = $db->prepare("INSERT INTO Local VALUES(:moradaLocal);");
-
+                    $prep = $db->prepare("DELETE FROM Local WHERE moradaLocal = :moradaLocal;");
                     $prep->bindParam(':moradaLocal', $_REQUEST['moradaLocal']);
                     $prep->execute();
-                    
+
                     $db   = null;
                     $prep = null;
                 }
@@ -43,15 +42,12 @@
 
             case "evento":
                 echo("
-                <h3>Inserir novo Evento de Emerg&ecircncia</h3>
-                <form action='add.php?target=evento' method='post'>
+                <h3>Remover Evento de Emerg&ecircncia</h3>
+                <form action='del.php?target=evento' method='post'>
                     <input type='hidden' name='submited' value='yes'/>
                     <table class='dados'>
                         <tr> <td> <label>Instante da chamada:     </label> </td> <td> <input style='width:173px' type='datetime-local' step='1' name='instanteChamada'/>    </td> </tr>
                         <tr> <td> <label>N&uacutemero de telefone:</label> </td> <td> <input type='text' name='numTelefone'/>        </td> </tr>
-                        <tr> <td> <label>Nome da Pessoa:          </label> </td> <td> <input type='text' name='nomePessoa'/>         </td> </tr>
-                        <tr> <td> <label>Local:                   </label> </td> <td> <input type='text' name='moradaLocal'/>        </td> </tr>
-                        <tr> <td> <label>N&uacutemero do Processo:</label> </td> <td> <input type='text' name='numProcessoSocorro'/> </td> </tr>
                     </table>
                     <br/>
                     <input type='submit' value='Submit' id='submit'/>
@@ -60,15 +56,12 @@
 
                 if($submited == "yes"){
 
+                    date_default_timezone_set('UTC');
                     $instanteChamada    = $_REQUEST['instanteChamada'];
                     $instanteChamada    = date("d-m-Y H:i:s",strtotime($instanteChamada));
 
-                    $prep = $db->prepare("INSERT INTO EventoEmergencia VALUES(:numTelefone, :instanteChamada, :nomePessoa, :moradaLocal, :numProcessoSocorro);");
-                    
+                    $prep = $db->prepare("DELETE FROM EventoEmergencia WHERE numTelefone = :numTelefone AND instanteChamada = :instanteChamada;");
                     $prep->bindParam(':numTelefone',        $_REQUEST['numTelefone']);
-                    $prep->bindParam(':nomePessoa',         $_REQUEST['nomePessoa']);
-                    $prep->bindParam(':moradaLocal',        $_REQUEST['moradaLocal']);
-                    $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
                     $prep->bindParam(':instanteChamada',    $instanteChamada);
                     $prep->execute();
 
@@ -81,8 +74,8 @@
 
             case "processo":
                 echo("
-                <h3>Inserir novo Processo de Socorro</h3>
-                <form action='add.php?target=processo' method='post'>
+                <h3>Remover Processo de Socorro</h3>
+                <form action='del.php?target=processo' method='post'>
                     <input type='hidden' name='submited' value='yes'/>
                     <table class='dados'>
                         <tr> <td> <label>N&uacutemero do Processo:</label> </td> <td> <input type='text' name='numProcessoSocorro'/> </td> </tr>
@@ -94,7 +87,7 @@
 
                 if($submited == "yes"){
 
-                    $prep = $db->prepare("INSERT INTO ProcessoSocorro VALUES(:numProcessoSocorro);");
+                    $prep = $db->prepare("DELETE FROM ProcessoSocorro WHERE numProcessoSocorro = :numProcessoSocorro");
                     $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
                     $prep->execute();
 
@@ -106,8 +99,8 @@
 
             case "entidade":
                 echo("
-                <h3>Inserir nova Entidade</h3>
-                <form action='add.php?target=entidade' method='post'>
+                <h3>Remover Entidade</h3>
+                <form action='del.php?target=entidade' method='post'>
                     <input type='hidden' name='submited' value='yes'/>
                     <table class='dados'>
                         <tr> <td> <label>Nome da Entidade:</label> </td> <td> <input type='text' name='nomeentidade'/> </td> </tr>
@@ -118,7 +111,7 @@
                 ");
 
                 if($submited == "yes"){
-                    $prep = $db->prepare("INSERT INTO EntidadeMeio VALUES(:nomeentidade);");
+                    $prep = $db->prepare("DELETE FROM EntidadeMeio WHERE nomeentidade = :nomeentidade");
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
                     $prep->execute();
                     
@@ -130,12 +123,11 @@
 
             case "meio":
                 echo("
-                <h3>Inserir novo Meio</h3>
-                <form action='add.php?target=meio' method='post'>
+                <h3>Remover Meio</h3>
+                <form action='del.php?target=meio' method='post'>
                     <input type='hidden' name='submited' value='yes'/>
                     <table class='dados'>
                         <tr> <td> <label>N&uacutemero do Meio:</label> </td> <td> <input type='text' name='nummeio'/>      </td> </tr>
-                        <tr> <td> <label>Nome do Meio:        </label> </td> <td> <input type='text' name='nomemeio'/>     </td> </tr>
                         <tr> <td> <label>Nome da Entidade:    </label> </td> <td> <input type='text' name='nomeentidade'/> </td> </tr>
                     </table>
                     <br/>
@@ -145,9 +137,8 @@
 
                 if($submited == "yes"){
                
-                    $prep = $db->prepare("INSERT INTO Meio VALUES(:nummeio, :nomemeio, :nomeentidade);");
+                    $prep = $db->prepare("DELETE FROM Meio WHERE nummeio = :nummeio AND nomeentidade = :nomeentidade;");
                     $prep->bindParam(':nummeio',      $_REQUEST['nummeio']);
-                    $prep->bindParam(':nomemeio',     $_REQUEST['nomemeio']);
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
                     $prep->execute();
 
@@ -164,18 +155,18 @@
                 //get tabela certa
                 if($target == "m_combate"){
                     $tabelaMeio = "MeioCombate";
-                    echo("<h3>Inserir novo Meio de Combate</h3>
-                          <form action='add.php?target=m_combate' method='post'>");
+                    echo("<h3>Remover Meio de Combate</h3>
+                          <form action='del.php?target=m_combate' method='post'>");
                 }
                 else if($target == "m_apoio"){
                     $tabelaMeio = "MeioApoio";
-                    echo("<h3>Inserir novo Meio de Apoio</h3>
-                    <form action='add.php?target=m_apoio' method='post'>");
+                    echo("<h3>Remover Meio de Apoio</h3>
+                    <form action='del.php?target=m_apoio' method='post'>");
                 }
                 else{
                     $tabelaMeio = "MeioSocorro";
-                    echo("<h3>Inserir novo Meio de Socorro</h3>
-                    <form action='add.php?target=m_socorro' method='post'>");
+                    echo("<h3>Remover Meio de Socorro</h3>
+                    <form action='del.php?target=m_socorro' method='post'>");
                 }
 
                 echo("
@@ -191,8 +182,8 @@
 
                 if($submited == "yes"){
 
-                    $prep = $db->prepare("INSERT INTO $tabelaMeio VALUES(:nummeio, :nomeentidade);");
-
+                    $prep = $db->prepare("DELETE FROM $tabelaMeio WHERE nummeio = :nummeio AND nomeentidade = :nomeentidade;");
+                    
                     $prep->bindParam(':nummeio',      $_REQUEST['nummeio']);
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
 

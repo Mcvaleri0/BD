@@ -67,7 +67,7 @@ create table Video (
 	numCamara integer,
 	primary key(dataHoraInicio, numCamara),
 	foreign key(numCamara)
-		references Camara(numCamara)
+		references Camara(numCamara) on delete cascade on update cascade
 );
 
 
@@ -78,7 +78,7 @@ create table SegmentoVideo (
 	numCamara integer,
 	primary key (numSegmento, dataHoraInicio, numCamara),
 	foreign key (dataHoraInicio, numCamara)
-		references Video(dataHoraInicio, numCamara)
+		references Video(dataHoraInicio, numCamara) on delete cascade on update cascade
 );
 
 
@@ -95,7 +95,7 @@ create table Meio (
 	nomeEntidade varchar(200),
 	primary key (numMeio, nomeEntidade),
 	foreign key (nomeEntidade)
-		references EntidadeMeio(nomeEntidade)
+		references EntidadeMeio(nomeEntidade) on delete cascade on update cascade
 );
 
 
@@ -104,7 +104,7 @@ create table MeioCombate (
 	nomeEntidade varchar(200),
 	primary key (numMeio, nomeEntidade),
 	foreign key (numMeio, nomeEntidade)
-		references Meio(numMeio, nomeEntidade)
+		references Meio(numMeio, nomeEntidade) on delete cascade on update cascade
 );
 
 
@@ -113,7 +113,7 @@ create table MeioApoio (
   nomeEntidade varchar(200),
   primary key (numMeio, nomeEntidade),
   foreign key (numMeio, nomeEntidade)
-    references Meio(numMeio, nomeEntidade)
+    references Meio(numMeio, nomeEntidade) on delete cascade on update cascade
 );
 
 
@@ -122,7 +122,7 @@ create table MeioSocorro(
   nomeEntidade varchar(200),
   primary key (numMeio, nomeEntidade),
   foreign key (numMeio, nomeEntidade)
-    references Meio(numMeio, nomeEntidade)
+    references Meio(numMeio, nomeEntidade) on delete cascade on update cascade
 );
 
 /* ------------------------------------------------------------------------- */
@@ -136,9 +136,9 @@ create table Vigia (
 	numCamara integer,
   primary key (moradaLocal, numCamara),
 	foreign key (moradaLocal)
-		references Local(moradaLocal),
+		references Local(moradaLocal) on delete cascade on update cascade,
 	foreign key (numCamara)
-		references Camara(numCamara)
+		references Camara(numCamara) on delete cascade on update cascade
 );
 
 
@@ -150,9 +150,9 @@ create table EventoEmergencia (
 	numProcessoSocorro integer,
 	primary key (numTelefone, instanteChamada),
 	foreign key (moradaLocal)
-		references Local(moradaLocal),
+		references Local(moradaLocal) on delete cascade on update cascade,
 	foreign key (numProcessoSocorro)
-		references ProcessoSocorro(numProcessoSocorro),
+		references ProcessoSocorro(numProcessoSocorro) on delete cascade on update cascade,
 	unique (numTelefone, nomePessoa)
 );
 
@@ -164,9 +164,9 @@ create table Transporta (
   numProcessoSocorro integer,
   primary key (numMeio, nomeEntidade, numProcessoSocorro),
   foreign key (numMeio, nomeEntidade)
-    references MeioSocorro(numMeio, nomeEntidade),
+    references MeioSocorro(numMeio, nomeEntidade) on delete cascade on update cascade,
   foreign key (numProcessoSocorro)
-    references ProcessoSocorro(numProcessoSocorro)
+    references ProcessoSocorro(numProcessoSocorro) on delete cascade on update cascade
 );
 
 
@@ -177,9 +177,9 @@ create table Alocado (
   numProcessoSocorro integer,
   primary key (numMeio, nomeEntidade, numProcessoSocorro),
   foreign key (numMeio, nomeEntidade)
-    references MeioApoio(numMeio, nomeEntidade),
+    references MeioApoio(numMeio, nomeEntidade) on delete cascade on update cascade,
   foreign key (numProcessoSocorro)
-    references ProcessoSocorro(numProcessoSocorro)
+    references ProcessoSocorro(numProcessoSocorro) on delete cascade on update cascade
 );
 
 
@@ -189,9 +189,9 @@ create table Acciona (
   numProcessoSocorro integer,
   primary key (numMeio, nomeEntidade, numProcessoSocorro),
   foreign key (numMeio, nomeEntidade)
-    references Meio(numMeio, nomeEntidade),
+    references Meio(numMeio, nomeEntidade) on delete cascade on update cascade,
   foreign key (numProcessoSocorro)
-    references ProcessoSocorro(numProcessoSocorro)
+    references ProcessoSocorro(numProcessoSocorro) on delete cascade on update cascade
 );
 
 
@@ -206,9 +206,9 @@ create table Audita (
   texto text,
   primary key (idCoordenador, numMeio, nomeEntidade, numProcessoSocorro),
   foreign key (numMeio, nomeEntidade, numProcessoSocorro)
-    references Acciona(numMeio, nomeEntidade, numProcessoSocorro),
+    references Acciona(numMeio, nomeEntidade, numProcessoSocorro) on delete cascade on update cascade,
   foreign key (idCoordenador)
-    references Coordenador(idCoordenador),
+    references Coordenador(idCoordenador) on delete cascade on update cascade,
   check (datahoraInicio < datahoraFim),
   check (dataAuditoria <= (current_date))
 );
@@ -222,9 +222,9 @@ create table Solicita (
   dataHoraFim timestamp not null,
   primary key (idCoordenador, dataHoraInicioVideo, numCamara),
   foreign key (idCoordenador)
-    references Coordenador(idCoordenador),
+    references Coordenador(idCoordenador) on delete cascade on update cascade,
   foreign key (dataHoraInicioVideo, numCamara)
-    references Video(dataHoraInicio, numCamara)
+    references Video(dataHoraInicio, numCamara) on delete cascade on update cascade
 );
 
 /* ------------------------------------------------------------------------- */

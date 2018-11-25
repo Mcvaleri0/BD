@@ -30,11 +30,14 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("INSERT INTO Local VALUES(:moradaLocal);");
 
                     $prep->bindParam(':moradaLocal', $_REQUEST['moradaLocal']);
                     $prep->execute();
                     
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -60,6 +63,8 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     $instanteChamada    = $_REQUEST['instanteChamada'];
                     $instanteChamada    = date("d-m-Y H:i:s",strtotime($instanteChamada));
 
@@ -72,6 +77,7 @@
                     $prep->bindParam(':instanteChamada',    $instanteChamada);
                     $prep->execute();
 
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -94,10 +100,13 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("INSERT INTO ProcessoSocorro VALUES(:numProcessoSocorro);");
                     $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
                     $prep->execute();
 
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -118,10 +127,14 @@
                 ");
 
                 if($submited == "yes"){
+
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("INSERT INTO EntidadeMeio VALUES(:nomeentidade);");
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
                     $prep->execute();
                     
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -145,12 +158,16 @@
 
                 if($submited == "yes"){
                
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("INSERT INTO Meio VALUES(:nummeio, :nomemeio, :nomeentidade);");
                     $prep->bindParam(':nummeio',      $_REQUEST['nummeio']);
                     $prep->bindParam(':nomemeio',     $_REQUEST['nomemeio']);
                     $prep->bindParam(':nomeentidade', $_REQUEST['nomeentidade']);
                     $prep->execute();
 
+
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }
@@ -191,6 +208,8 @@
 
                 if($submited == "yes"){
 
+                    $db->beginTransaction();
+
                     $prep = $db->prepare("INSERT INTO $tabelaMeio VALUES(:nummeio, :nomeentidade);");
 
                     $prep->bindParam(':nummeio',      $_REQUEST['nummeio']);
@@ -198,6 +217,7 @@
 
                     $prep->execute();
 
+                    $db->commit();
                     $db   = null;
                     $prep = null;
                 }

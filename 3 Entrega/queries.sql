@@ -38,16 +38,12 @@ from TnumProcessosEntidade
     que nao foi alvo de auditoria; */
 
 select numProcessoSocorro
-from (
-     select *
-     from Acciona
-     except
-     select numMeio, nomeEntidade, numProcessoSocorro
-     from Acciona natural join Audita
-     ) TprocessosNaoAuditados
-       natural join EventoEmergencia
+from EventoEmergencia natural join Acciona
 where extract(year from instanteChamada) = 2018 and
-      moradaLocal = 'Oliveira do Hospital';
+      moradaLocal = 'Oliveira do Hospital'
+except
+select numProcessoSocorro
+from Audita;
 
 
 
@@ -56,7 +52,7 @@ where extract(year from instanteChamada) = 2018 and
 
 select count(*) as numSegmentos
 from SegmentoVideo natural join Vigia
-where duracao > '60 secs' and
+where duracao > interval '60 secs' and
       moradaLocal = 'Monchique' and
       extract(year from dataHoraInicio) = 2018 and
       extract(month from dataHoraInicio) = 8;
@@ -77,12 +73,12 @@ from MeioApoio natural join Acciona;
 /* 6) Liste as entidades que forneceram meios de combate a todos os Processos de
     socorro que acionaram meios; */
 
-select nomeEntidade
-from EntidadeMeio entM
+select distinct nomeEntidade
+from MeioCombate entComb
 where not exists (
-            select *
-            from processoSocorro
+            select numProcessoSocorro
+            from Acciona
             except
             select numProcessoSocorro
-            from (MeioCombate natural join Acciona) MeiosAcc
-            where entM.nomeEntidade = MeiosAcc.nomeEntidade);
+            from (Acciona natural join MeioCombate) accComb
+            where entComb.nomeEntidade = accComb.nomeEntidade);

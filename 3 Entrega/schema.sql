@@ -4,12 +4,12 @@
 
 drop table if exists Camara cascade;
 drop table if exists Local cascade;
-drop table if exists ProcessoSocorro cascade;
 drop table if exists EntidadeMeio cascade;
 drop table if exists Coordenador cascade;
 
 drop table if exists Video cascade;
 drop table if exists SegmentoVideo cascade;
+drop table if exists ProcessoSocorro cascade;
 drop table if exists Meio cascade;
 drop table if exists MeioCombate cascade;
 drop table if exists MeioApoio cascade;

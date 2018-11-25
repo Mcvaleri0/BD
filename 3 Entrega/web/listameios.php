@@ -1,18 +1,11 @@
 <html>
     <body>
+        <!--back button-->
+        <div class ="back" onclick="window.location.href='index.html'"> &#9666 Back</div>
 <?php
     try
     {
-        #-----login-----
-        $host = "db.ist.utl.pt";
-        $user ="ist186419";
-        $password = "Francisco12safe";
-        $dbname = $user;
-        
-        
-        $db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        #---------------
+        include 'login.php';
         
         $sql = "SELECT * FROM Meio;";
         $result = $db->prepare($sql);
@@ -43,3 +36,22 @@
 
     </body>
 </html>
+
+<style>
+
+    .back{
+        cursor: pointer; 
+        font-size: 20px; 
+        color: white; 
+        background-color: rgb(179, 179, 179);
+        width: 350px;
+        user-select: none;
+        padding: 5px;
+        outline-style: auto;
+    }
+
+    .back:hover{
+        background-color: rgb(151, 151, 151);
+    }
+
+</style>

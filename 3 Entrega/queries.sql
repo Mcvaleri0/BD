@@ -20,20 +20,20 @@ from TmeiosAccionados
 with TnumProcessosEntidade as (
      select nomeEntidade, count(*) as numProcessos
      from Acciona natural join EventoEmergencia
-     where instanteChamada >= '2018-06-21 00:00:00' and
-           instanteChamada <= '2018-09-23 23:59:59'
+     where instanteChamada >= timestamp '2018-06-21 00:00:00' and
+           instanteChamada <= timestamp '2018-09-23 23:59:59'
      group by nomeEntidade
     )
 select nomeEntidade, numProcessos
 from TnumProcessosEntidade
        natural join (
-                    select max(numProcessos)
+                    select max(numProcessos) as numProcessos
                     from TnumProcessosEntidade
                     ) TentidadeMax;
 
 
 
-/* 3) Quais sao os processos de socorro, referente a eventos de emergencia em
+/* 3) Quais sao os processos de socorro, referentes a eventos de emergencia em
     2018 de Oliveira do Hospital, onde existe pelo menos um acionamento de meios
     que nao foi alvo de auditoria; */
 

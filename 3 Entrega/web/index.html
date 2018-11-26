@@ -1,26 +1,28 @@
 <html>
-    <body style="font-family:Helvetica; font-size: 20px; color: rgb(0, 0, 0);">
+    <body style="font-family:Helvetica; font-size: 20px; color: rgb(0, 0, 0);" onload="colapse_array(0)" onunload="colapse_array(1)">
         
         <h1 style="font-size: 40px; color: rgb(175, 40, 35);">|SGIF| <span style="font-size: 28px; font-weight:normal; color: rgb(0, 0, 0);">Database Interface</span></h1>
         
         <!--Locais-->
         <div onclick="colapse(this,'Locais_div')" class="tab">&#9656 Locais </div>
-        <div id="Locais_div" style="display: none;">
+        <div id="Locais_div" style="display: none;" class="subdiv">
                 <a href='add.php?target=local' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=local' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
+                <a href='list.php?target=alllocais' style=" text-decoration: none;"> <div class="option"> Listar todos </div></a>
         </div>
 
         <!--Eventos de Emergência  ê -->
         <div onclick="colapse(this,'Eventos_div')" class="tab">&#9656 Eventos de Emerg&ecircncia </div>
-        <div id="Eventos_div" style="display: none;">
+        <div id="Eventos_div" style="display: none;" class="subdiv">
                 <a href='add.php?target=evento' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=evento' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
                 <a href='assoc.php?target=evento' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
+                <a href='list.php?target=alleventos' style=" text-decoration: none;"> <div class="option"> Listar todos </div></a>
         </div>
 
         <!--Processos de Socorro-->
         <div onclick="colapse(this,'Processos_div')" class="tab">&#9656 Processos de Socorro </div>
-        <div id="Processos_div" style="display: none;">
+        <div id="Processos_div" style="display: none;" class="subdiv">
                 <a href='add.php?target=processo' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=processo' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
                 <a href='assoc.php?target=meio' style=" text-decoration: none;"> <div class="option"> Associar um meio </div></a>
@@ -30,15 +32,16 @@
 
         <!--Entidades-->
         <div onclick="colapse(this,'Entidades_div')" class="tab">&#9656 Entidades </div>
-        <div id="Entidades_div" style="display: none;">
+        <div id="Entidades_div" style="display: none;" class="subdiv">
                 <a href='add.php?target=entidade' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=entidade' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
+                <a href='list.php?target=allentidades' style=" text-decoration: none;"> <div class="option"> Listar todas </div></a>
         </div>
 
 
         <!--Meios-->
         <div onclick="colapse(this,'Meios_div')" class="tab">&#9656 Meios </div>
-        <div id="Meios_div" style="display: none;">
+        <div id="Meios_div" style="display: none;" class="subdiv">
                 <a href="add.php?target=meio" style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=meio' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
                 <a href='assoc.php?target=meio' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
@@ -46,27 +49,30 @@
                 <a href='list.php?target=meiosaccionados' style=" text-decoration: none;"> <div class="option"> Listar accionados em processo de socorro </div></a>
                 
                 <!--Combate-->
-                <div onclick="colapse(this,'Combate_div')" class="tab2">&#9656 Combate </div>
-                <div id="Combate_div" style="display: none;">
+                <div onclick="colapse(this,'Combate_div')" class="tab tab2">&#9656 Combate </div>
+                <div id="Combate_div" style="display: none;" class="subdiv">
                         <a href='add.php?target=m_combate' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
                         <a href='del.php?target=m_combate' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
                         <a href='edit.php?target=m_combate' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                        <a href='list.php?target=allm_combate' style=" text-decoration: none;"> <div class="option option2"> Listar todos </div></a>
                 </div>
 
                 <!--Apoio-->
-                 <div onclick="colapse(this,'Apoio_div')" class="tab2">&#9656 Apoio </div>
-                 <div id="Apoio_div" style="display: none;">
+                 <div onclick="colapse(this,'Apoio_div')" class="tab tab2">&#9656 Apoio </div>
+                 <div id="Apoio_div" style="display: none;" class="subdiv">
                          <a href='add.php?target=m_apoio' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
                          <a href='del.php?target=m_apoio' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
                          <a href='edit.php?target=m_apoio' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                         <a href='list.php?target=allm_socorro' style=" text-decoration: none;"> <div class="option option2"> Listar todos </div></a>
                  </div>
 
                 <!--Socorro-->
-                <div onclick="colapse(this,'Socorro_div')" class="tab2">&#9656 Socorro </div>
-                <div id="Socorro_div" style="display: none;">
+                <div onclick="colapse(this,'Socorro_div')" class="tab tab2">&#9656 Socorro </div>
+                <div id="Socorro_div" style="display: none;" class="subdiv">
                         <a href='add.php?target=m_socorro' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
                         <a href='del.php?target=m_socorro' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
                         <a href='edit.php?target=m_socorro' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                        <a href='list.php?target=allm_socorro' style=" text-decoration: none;"> <div class="option option2"> Listar todos </div></a>
                         <a href='list.php?target=m_socorroaccionadoslocal' style=" text-decoration: none;"> <div class="option option2"> Listar acionados em processos de socorro originados em local </div></a>
                 </div>
                 
@@ -94,42 +100,48 @@
 
         //onload
         if(flag == 0){
+            console.log("load");
             //check if array exists and if it does not return
-            var c_array = localStorage.getItem("colapse_array");
-            if (c_array === null) {
+            var c_array = JSON.parse(sessionStorage.getItem("colapse_array"));
+            if (c_array == null) {
+                console.log("make new array")
+                c_array = [0,0,0,0,0,0,0,0];
+                sessionStorage.setItem("colapse_array",JSON.stringify(c_array));
                 return;
             }
 
             var tabs = document.getElementsByClassName("tab");
+            var divs = document.getElementsByClassName("subdiv");
+
             for(var i = 0; i < tabs.length; i++)
             {
-                if(c_array[i] == 0){
-                    tabs.item(i).style.display = "block";
-                }
-                else{
-                    tabs.item(i).style.display = "none";
+                if(c_array[i] == 1){
+                    var divname = divs[i].id;
+                    colapse(tabs.item(i),divname);
                 }
             }
             
         }
         //on unload (save array)
         else{
-            //check if array exists and if it does create it as zeroes
-            var c_array = localStorage.getItem("colapse_array");
-            if (c_array === null) {
-                return;
-            }
+           
+            console.log("unload");
+
+            var c_array = JSON.parse(sessionStorage.getItem("colapse_array"));
 
             var tabs = document.getElementsByClassName("tab");
-            for(var i = 0; i < tabs.length; i++)
+            var divs = document.getElementsByClassName("subdiv");
+
+            for(var i = 0; i < divs.length; i++)
             {
-                if(tabs.item(i).style.display == "block"){
-                    c_array[i] == 0;
+                if(divs.item(i).style.display == "block"){
+                    c_array[i] = 1;
                 }
                 else{
-                    c_array[i] == 1;
+                    c_array[i] = 0;
                 }
             }
+            sessionStorage.setItem("colapse_array",JSON.stringify(c_array));
         }        
     }
 </script>

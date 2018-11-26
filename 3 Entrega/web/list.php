@@ -15,6 +15,62 @@
 
         switch($target){
 
+            case "alllocais":
+                $db->beginTransaction();
+
+                $sql = "SELECT * FROM Local;";
+                $result = $db->prepare($sql);
+                $result->execute();
+                
+                echo("<div id = 'container'>");
+                echo("<table class='list'>\n");
+                echo("<tr id='top'><td>moradaLocal</td></tr>\n");
+                foreach($result as $row)
+                {
+                    echo("<tr><td>");
+                    echo($row['moradalocal']);
+                    echo("</td></tr>\n");
+                }
+                echo("</table>\n");
+                echo("</div>");
+            
+                $db->commit();
+                $db   = null;
+
+            break;
+
+            case "alleventos":
+                $db->beginTransaction();
+
+                $sql = "SELECT * FROM EventoEmergencia;";
+                $result = $db->prepare($sql);
+                $result->execute();
+                
+                echo("<div id = 'container'>");
+                echo("<table class='list'>\n");
+                echo("<tr id='top'> <td>numTelefone</td> <td>instanteChamada</td> <td>nomePessoa</td> <td>moradaLocal</td> <td>numProcessoSocorro</td></tr>\n");
+                foreach($result as $row)
+                {
+                    echo("<tr><td>");
+                    echo($row['numtelefone']);
+                    echo("</td><td>");
+                    echo($row['instantechamada']);
+                    echo("</td><td>");
+                    echo($row['nomepessoa']);
+                    echo("</td><td>");
+                    echo($row['moradalocal']);
+                    echo("</td><td>");
+                    echo($row['numprocessosocorro']);
+                    echo("</td></tr>\n");
+                }
+                echo("</table>\n");
+                echo("</div>");
+            
+                $db->commit();
+                $db   = null;
+
+            break;
+
             case "allprocessos":
                 $db->beginTransaction();
 
@@ -39,6 +95,32 @@
 
             break;
 
+            case "allentidades":
+
+                $db->beginTransaction();
+
+                $sql = "SELECT * FROM EntidadeMeio;";
+                $result = $db->prepare($sql);
+                $result->execute();
+                
+                echo("<div id = 'container'>");
+                echo("<table class='list'>\n");
+                echo("<tr id='top'><td>nomeentidade</td></tr>\n");
+                foreach($result as $row)
+                {
+                    echo("<tr><td>");
+                    echo($row['nomeentidade']);
+                    echo("</td></tr>\n");
+                }
+                echo("</table>\n");
+                echo("</div>");
+                
+                $db->commit();
+                $db   = null;
+                
+
+            break;
+            
             case "allmeios":
 
                 $db->beginTransaction();
@@ -67,6 +149,44 @@
                 $db   = null;
                 
 
+            break;
+
+            case "allm_socorro":
+            case "allm_combate":
+            case "allm_apooio":
+
+                if($target == "allm_combate"){
+                    $tabelaMeio = "MeioCombate";
+                }
+                else if($target == "allm_apooio"){
+                    $tabelaMeio = "MeioApoio";
+                }
+                else{
+                    $tabelaMeio = "MeioSocorro";
+                }
+
+                $db->beginTransaction();
+
+                $sql = "SELECT * FROM $tabelaMeio;";
+                $result = $db->prepare($sql);
+                $result->execute();
+                
+                echo("<div id = 'container'>");
+                echo("<table class='list'>\n");
+                echo("<tr id='top'><td>nummeio</td><td>nomeentidade</td></tr>\n");
+                foreach($result as $row)
+                {
+                    echo("<tr><td>");
+                    echo($row['nummeio']);
+                    echo("</td><td>");
+                    echo($row['nomeentidade']);
+                    echo("</td></tr>\n");
+                }
+                echo("</table>\n");
+                echo("</div>");
+                
+                $db->commit();
+                $db   = null;
             break;
 
             case "meiosaccionados":

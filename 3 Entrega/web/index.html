@@ -15,7 +15,7 @@
         <div id="Eventos_div" style="display: none;">
                 <a href='add.php?target=evento' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=evento' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
-                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
+                <a href='assoc.php?target=evento' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
         </div>
 
         <!--Processos de Socorro-->
@@ -23,8 +23,8 @@
         <div id="Processos_div" style="display: none;">
                 <a href='add.php?target=processo' style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=processo' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
-                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar um meio </div></a>
-                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar um evento de emerg&ecircncia </div></a>
+                <a href='assoc.php?target=meio' style=" text-decoration: none;"> <div class="option"> Associar um meio </div></a>
+                <a href='assoc.php?target=evento' style=" text-decoration: none;"> <div class="option"> Associar um evento de emerg&ecircncia </div></a>
                 <a href='list.php?target=allprocessos' style=" text-decoration: none;"> <div class="option"> Listar todos </div></a>
         </div>
 
@@ -41,7 +41,7 @@
         <div id="Meios_div" style="display: none;">
                 <a href="add.php?target=meio" style=" text-decoration: none;"> <div class="option"> Inserir </div></a>
                 <a href='del.php?target=meio' style=" text-decoration: none;"> <div class="option"> Remover </div></a>
-                <a href='test.php' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
+                <a href='assoc.php?target=meio' style=" text-decoration: none;"> <div class="option"> Associar a um processo de socorro  </div></a>
                 <a href='list.php?target=allmeios' style=" text-decoration: none;"> <div class="option"> Listar todos </div></a>
                 <a href='list.php?target=meiosaccionados' style=" text-decoration: none;"> <div class="option"> Listar accionados em processo de socorro </div></a>
                 
@@ -50,7 +50,7 @@
                 <div id="Combate_div" style="display: none;">
                         <a href='add.php?target=m_combate' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
                         <a href='del.php?target=m_combate' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
-                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                        <a href='edit.php?target=m_combate' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
                 </div>
 
                 <!--Apoio-->
@@ -58,7 +58,7 @@
                  <div id="Apoio_div" style="display: none;">
                          <a href='add.php?target=m_apoio' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
                          <a href='del.php?target=m_apoio' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
-                         <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                         <a href='edit.php?target=m_apoio' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
                  </div>
 
                 <!--Socorro-->
@@ -66,7 +66,7 @@
                 <div id="Socorro_div" style="display: none;">
                         <a href='add.php?target=m_socorro' style=" text-decoration: none;"> <div class="option option2"> Inserir </div></a>
                         <a href='del.php?target=m_socorro' style=" text-decoration: none;"> <div class="option option2"> Remover </div></a>
-                        <a href='test.php' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
+                        <a href='edit.php?target=m_socorro' style=" text-decoration: none;"> <div class="option option2"> Editar </div></a>
                         <a href='list.php?target=m_socorroaccionadoslocal' style=" text-decoration: none;"> <div class="option option2"> Listar acionados em processos de socorro originados em local </div></a>
                 </div>
                 
@@ -89,7 +89,49 @@
         }
     }
 
-    function colapse_array(){}
+    //function to save the tabs that were open so we dont need to constantly do that
+    function colapse_array(flag){
+
+        //onload
+        if(flag == 0){
+            //check if array exists and if it does not return
+            var c_array = localStorage.getItem("colapse_array");
+            if (c_array === null) {
+                return;
+            }
+
+            var tabs = document.getElementsByClassName("tab");
+            for(var i = 0; i < tabs.length; i++)
+            {
+                if(c_array[i] == 0){
+                    tabs.item(i).style.display = "block";
+                }
+                else{
+                    tabs.item(i).style.display = "none";
+                }
+            }
+            
+        }
+        //on unload (save array)
+        else{
+            //check if array exists and if it does create it as zeroes
+            var c_array = localStorage.getItem("colapse_array");
+            if (c_array === null) {
+                return;
+            }
+
+            var tabs = document.getElementsByClassName("tab");
+            for(var i = 0; i < tabs.length; i++)
+            {
+                if(tabs.item(i).style.display == "block"){
+                    c_array[i] == 0;
+                }
+                else{
+                    c_array[i] == 1;
+                }
+            }
+        }        
+    }
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 <?php
     $host = "db.ist.utl.pt";
-    $user ="ist186483";
+    $user = "ist186483";
     $password = "PassTecnic00";
     $dbname = $user;
 

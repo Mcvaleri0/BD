@@ -1,7 +1,7 @@
 <?php
     $host = "db.ist.utl.pt";
-    $user ="ist186419";
-    $password = "Francisco12safe";
+    $user ="ist186483";
+    $password = "PassTecnic00";
     $dbname = $user;
 
     $db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);

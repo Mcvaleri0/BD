@@ -1,3 +1,5 @@
+start transaction;
+
 insert into Camara values (0);
 insert into Camara values (1);
 insert into Camara values (2);
@@ -8110,3 +8112,5 @@ insert into Solicita values (494, timestamp '2018-06-01 14:43:20', 494, timestam
 insert into Solicita values (495, timestamp '2018-10-07 15:06:55', 495, timestamp '2018-11-24 15:17:34', timestamp '2018-11-24 16:20:04');
 insert into Solicita values (496, timestamp '2018-11-19 16:14:44', 496, timestamp '2018-09-17 13:04:58', timestamp '2018-10-01 23:08:06');
 insert into Solicita values (497, timestamp '2018-10-02 07:40:34', 497, timestamp '2018-09-16 21:38:29', timestamp '2018-09-19 09:21:57');
+
+commit;

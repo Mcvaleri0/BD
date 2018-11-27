@@ -5,6 +5,7 @@
 create or replace function check_ProcSOS()
 returns trigger as $body$
 begin
+  
   if not exists(
     select *
     from EventoEmergencia EE
@@ -13,6 +14,8 @@ begin
     raise exception 'Processo de Socorro % nao associado a nenhum Evento de Emergencia.', new.numProcessoSocorro
     using hint = 'Verifique o numero do Processo de Socorro';
   end if;
+
+  return null;
 end;
 $body$ language plpgsql;
 
@@ -23,8 +26,11 @@ $body$ language plpgsql;
 
 /* = = = = = = = = = = = = = = = = Triggers = = = = = = = = = = = = = = = = */
 
-create trigger check_ProcSOS_trigger
-before insert or update on ProcessoSocorro
+drop trigger if exists check_ProcSOS_trigger on ProcessoSocorro cascade;
+
+create constraint trigger check_ProcSOS_trigger
+after insert or update on ProcessoSocorro
+deferrable initially deferred
 for each row execute procedure check_ProcSOS();
 
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = */

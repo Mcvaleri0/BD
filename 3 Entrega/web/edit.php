@@ -42,31 +42,51 @@
                         <tr> <td> <b>Dados antigos:<b> </td> <tr>
                         <tr> <td> <label>N&uacutemero do Meio:</label> </td> <td> <input type='text' name='nummeio'/>      </td> </tr>
                         <tr> <td> <label>Nome da Entidade:        </label> </td> <td> <input type='text' name='nomeentidade'/>     </td> </tr>
-                        <tr> <td> <b>Dados novos:<b> </td> <tr>
-                        <tr> <td> <label>N&uacutemero do Meio:</label> </td> <td> <input type='text' name='nummeio'/>      </td> </tr>
-                        <tr> <td> <label>Nome da Entidade:        </label> </td> <td> <input type='text' name='nomeentidade'/>     </td> </tr>
+                        <tr> <td> <b>Nome novo:<b> </td> <tr>
+                        <tr> <td> <label>Nome do Meio:        </label> </td> <td> <input type='text' name='nomemeio'/>     </td> </tr>
                     </table>
                     <br/>
                     <input type='submit' value='Submit' id='submit'/>
                 </form>
+                <br/>
                 ");
 
                 if($submited == "yes"){
 
                     $db->beginTransaction();
 
-                    $prep = $db->prepare("UPDATE $tabelaMeio SET nummeio = :nummeio, nomeentidade = :nomeentidade WHERE nummeio = :oldnummeio, nomeentidade = :oldnomeentidade;");
+                    $test = $db->prepare("SELECT *
+                                          FROM $tabelaMeio
+                                          WHERE nummeio = :nummeio AND nomeentidade = :nomeentidade;");
+                    
+                    $test->bindParam(':nummeio',         $_REQUEST['nummeio']);
+                    $test->bindParam(':nomeentidade',    $_REQUEST['nomeentidade']);
+                    
+                    $test->execute();
 
-                    $prep->bindParam(':oldnummeio',      $_REQUEST['oldnummeio']);
-                    $prep->bindParam(':oldnomeentidade', $_REQUEST['oldnomeentidade']);
-                    $prep->bindParam(':nummeio',         $_REQUEST['nummeio']);
-                    $prep->bindParam(':nomeentidade',    $_REQUEST['nomeentidade']);
+                    $num_rows = $test->rowCount();
+                    if($num_rows > 0){
+                        echo("Operation Successful");
+                        $prep = $db->prepare("UPDATE Meio
+                                              SET nomemeio = :nomemeio 
+                                              WHERE nummeio = :nummeio AND nomeentidade = :nomeentidade;");
 
-                    $prep->execute();
+                        $prep->bindParam(':nomemeio',        $_REQUEST['nomemeio']);
+                        $prep->bindParam(':nummeio',         $_REQUEST['nummeio']);
+                        $prep->bindParam(':nomeentidade',    $_REQUEST['nomeentidade']);
+
+                        $prep->execute();
+
+                    }
+                    else{
+                        echo("ERROR: O meio que esta a tentar editar nao existe");
+                    }
 
                     $db->commit();
+                    
                     $db   = null;
                     $prep = null;
+                    $test = null;
                 }
 
             break;

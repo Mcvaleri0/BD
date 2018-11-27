@@ -63,7 +63,7 @@
 
                     date_default_timezone_set('UTC');
                     $instanteChamada    = $_REQUEST['instanteChamada'];
-                    $instanteChamada    = date("d-m-Y H:i:s",strtotime($instanteChamada));
+                    $instanteChamada    = date("Y-m-d H:i:s",strtotime($instanteChamada));
 
                     $prep = $db->prepare("DELETE FROM EventoEmergencia WHERE numTelefone = :numTelefone AND instanteChamada = :instanteChamada;");
                     $prep->bindParam(':numTelefone',        $_REQUEST['numTelefone']);

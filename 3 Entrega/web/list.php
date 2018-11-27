@@ -153,12 +153,12 @@
 
             case "allm_socorro":
             case "allm_combate":
-            case "allm_apooio":
+            case "allm_apoio":
 
                 if($target == "allm_combate"){
                     $tabelaMeio = "MeioCombate";
                 }
-                else if($target == "allm_apooio"){
+                else if($target == "allm_apoio"){
                     $tabelaMeio = "MeioApoio";
                 }
                 else{

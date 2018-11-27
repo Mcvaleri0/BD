@@ -63,7 +63,7 @@
                     <input type='hidden' name='submited' value='yes'/>
                     <table class='dados'>
                         <tr>  <td> <b> Processo de Socorro: <b> </td> </tr>
-                        <tr> <td> <label>N&uacutemero do Processo:</label> </td> <td> <input type='text' name='numProcessoSocorro'/> </td> </tr>
+                        <tr> <td> <label>N&uacutemero do Processo:</label> </td> <td> <input type='text' name='numprocessosocorro'/> </td> </tr>
                         <tr> <td> <br/> </td> </tr>
                         <tr>  <td> <b> Meio: <b> </td> </tr>
                         <tr> <td> <label>N&uacutemero do Meio:</label> </td> <td> <input type='text' name='nummeio'/>      </td> </tr>
@@ -78,9 +78,9 @@
                
                     $db->beginTransaction();
 
-                    $prep = $db->prepare("");  /* FIX ME */
+                    $prep = $db->prepare(" INSERT INTO Acciona VALUES( :nummeio, :nomeentidade, :numprocessosocorro);");  
 
-                    $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
+                    $prep->bindParam(':numprocessosocorro', $_REQUEST['numprocessosocorro']);
                     $prep->bindParam(':nummeio',            $_REQUEST['nummeio']);
                     $prep->bindParam(':nomeentidade',       $_REQUEST['nomeentidade']);
                     $prep->execute();

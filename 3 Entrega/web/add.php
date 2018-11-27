@@ -66,7 +66,7 @@
                     $db->beginTransaction();
 
                     $instanteChamada    = $_REQUEST['instanteChamada'];
-                    $instanteChamada    = date("d-m-Y H:i:s",strtotime($instanteChamada));
+                    $instanteChamada    = date("Y-m-d H:i:s",strtotime($instanteChamada));
 
                     $prep = $db->prepare("INSERT INTO EventoEmergencia VALUES(:numTelefone, :instanteChamada, :nomePessoa, :moradaLocal, :numProcessoSocorro);");
                     

@@ -38,13 +38,16 @@
 
                     $db->beginTransaction();
 
-                    $instanteChamada    = $_REQUEST['instanteChamada'];
-                    $instanteChamada    = date("d-m-Y H:i:s",strtotime($instanteChamada));
-
-                    $prep = $db->prepare("");  /* FIX ME */
+                    $prep = $db->prepare("UPDATE EventoEmergencia
+                                          SET numProcessoSocorro = :numProcessoSocorro
+                                          WHERE (numTelefone = :numTelefone AND instanteChamada = :instanteChamada)");  
                     
                     $prep->bindParam(':numTelefone',        $_REQUEST['numTelefone']);
+
+                    $instanteChamada    = $_REQUEST['instanteChamada'];
+                    $instanteChamada    = date("d-m-Y H:i:s",strtotime($instanteChamada));
                     $prep->bindParam(':instanteChamada',    $instanteChamada);
+
                     $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
                  
                     $prep->execute();

@@ -65,19 +65,30 @@
 
                     $db->beginTransaction();
 
+                    //aqui é opcional inserir logo o processo de socorro sendo q podemos mais tarde fazer essa associacao
+                    if($_REQUEST['numProcessoSocorro'] == ""){
+                        
+                        $prep = $db->prepare("INSERT INTO EventoEmergencia VALUES(:numTelefone, :instanteChamada, :nomePessoa, :moradaLocal);"); 
+                    }
+                    else{
+
+                        $prep = $db->prepare("INSERT INTO EventoEmergencia VALUES(:numTelefone, :instanteChamada, :nomePessoa, :moradaLocal, :numProcessoSocorro);");
+
+                        $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
+                    }
+
                     $instanteChamada    = $_REQUEST['instanteChamada'];
                     $instanteChamada    = date("Y-m-d H:i:s",strtotime($instanteChamada));
+                    $prep->bindParam(':instanteChamada',    $instanteChamada);
 
-                    $prep = $db->prepare("INSERT INTO EventoEmergencia VALUES(:numTelefone, :instanteChamada, :nomePessoa, :moradaLocal, :numProcessoSocorro);");
-                    
                     $prep->bindParam(':numTelefone',        $_REQUEST['numTelefone']);
                     $prep->bindParam(':nomePessoa',         $_REQUEST['nomePessoa']);
                     $prep->bindParam(':moradaLocal',        $_REQUEST['moradaLocal']);
-                    $prep->bindParam(':numProcessoSocorro', $_REQUEST['numProcessoSocorro']);
-                    $prep->bindParam(':instanteChamada',    $instanteChamada);
+                    
                     $prep->execute();
 
                     $db->commit();
+
                     $db   = null;
                     $prep = null;
                 }

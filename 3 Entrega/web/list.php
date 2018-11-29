@@ -207,12 +207,8 @@
                     $db->beginTransaction();
                     
                     $sql = "SELECT * 
-                            FROM (
-                                Meio NATURAL JOIN (
-                                    SELECT * FROM Acciona 
-                                    WHERE numProcessoSocorro = :numProcessoSocorro
-                                ) AS MeiosAccionados
-                            );";
+                            FROM Meio NATURAL JOIN Acciona 
+                            WHERE numProcessoSocorro = :numProcessoSocorro;";
 
                     $result = $db->prepare($sql);
                     $result->bindParam(':numProcessoSocorro',$_REQUEST['numProcessoSocorro']);

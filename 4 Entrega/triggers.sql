@@ -107,6 +107,19 @@ where T.idCoordenador = 2000 and
       T.numCamara = 2000;
 
 
+/* Verificacao dos registos todos */
+select *
+from Solicita;
+
+select *
+from Solicita S
+where exists (
+    select *
+    from (Vigia natural join EventoEmergencia natural join Audita) T
+    where S.idCoordenador = T.idCoordenador and
+          S.numCamara = T.numCamara );
+
+
 /* NAO PODE DAR ERRO */
 insert into Solicita values (2000, timestamp '2018-12-10 16:30:00', 2000, timestamp '2018-12-10 17:30:00', timestamp '2018-12-10 18:30:00');
 

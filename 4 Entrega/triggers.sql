@@ -1,6 +1,6 @@
 /* = = = = = = = = = = = = = = Funcoes Callback = = = = = = = = = = = = = = */
 
-/* Um Coordenador só pode solicitar vídeos de câmaras colocadas num local cujo
+/* Um Coordenador só pode solicitar videos de câmaras colocadas num local cujo
     acionamento de meios esteja a ser (ou tenha sido) auditado por ele próprio. */
 create or replace function check_Solicita()
 returns trigger as $body$
@@ -15,7 +15,7 @@ begin
   then
     raise exception 'O Coordenador % nao pode solicitar videos da camara %.',
       new.idCoordenador, new.numCamara
-    using hint = 'Um Coordenador so pode solicitar vídeos de camaras colocadas ' ||
+    using hint = 'Um Coordenador so pode solicitar videos de camaras colocadas ' ||
                  'num local cujo acionamento de meios esteja a ser (ou tenha '   ||
                  'sido) auditado por ele proprio.';
   end if;
@@ -26,7 +26,7 @@ $body$ language plpgsql;
 
 
 
-/* Um Meio de Apoio só pode ser alocado a Processos de Socorro para os quais
+/* Um Meio de Apoio so pode ser alocado a Processos de Socorro para os quais
     tenha sido accionado. */
 create or replace function check_Alocado()
 returns trigger as $body$
@@ -41,7 +41,7 @@ begin
   )
   then
     raise exception 'O Meio de Apoio (%, %) nao pode ser alocado pelo Processo de Socorro %.', new.numMeio, new.nomeEntidade, new.numProcessoSocorro
-    using hint = 'Um Meio de Apoio só pode ser alocado a Processos de Socorro para ' ||
+    using hint = 'Um Meio de Apoio so pode ser alocado a Processos de Socorro para ' ||
                  'os quais tenha sido accionado.';
   end if;
 
@@ -76,31 +76,69 @@ for each row execute procedure check_Alocado();
 
 /* = = = = = = = = = = = = = Queries Auxiliares = = = = = = = = = = = = = */
 
-/* check_Solicita_trigger */
+/* ------------------------ check_Solicita_trigger ------------------------ */
 
-select idCoordenador
-from Vigia natural join EventoEmergencia natural join Audita
-order by idCoordenador;
+/* Insercao dos resgistos */
+insert into Coordenador values (2000);
+insert into Camara values (2000);
+insert into Video values (timestamp '2018-12-10 16:30:00', timestamp '2018-12-10 17:00:00', 2000);
 
-select numCamara
-from Vigia natural join EventoEmergencia natural join Audita
-where idCoordenador = 1
-order by numCamara;
+insert into EntidadeMeio values ('Entidade');
+insert into Meio values (2000, 'Bolinhas', 'Entidade');
 
+insert into Local values ('Aqui');
+
+start transaction;
+insert into ProcessoSocorro values (2000);
+insert into EventoEmergencia values ('926626599', timestamp '2018-12-10 17:00:00', 'Eu', 'Aqui', 2000);
+commit;
+
+insert into Acciona values (2000, 'Entidade', 2000);
+
+insert into Audita values (2000, 2000, 'Entidade', 2000, timestamp '2018-12-10 17:30:00', timestamp '2018-12-10 18:00:00', date '2018-12-10');
+
+insert into Vigia values ('Aqui', 2000);
+
+
+/* Verificacao da insercao */
 select *
-from Vigia natural join EventoEmergencia natural join Audita
-where idCoordenador = 1 and numCamara = 116;
+from (Vigia natural join EventoEmergencia natural join Audita) T
+where T.idCoordenador = 2000 and
+      T.numCamara = 2000;
 
+
+/* NAO PODE DAR ERRO */
+insert into Solicita values (2000, timestamp '2018-12-10 16:30:00', 2000, timestamp '2018-12-10 17:30:00', timestamp '2018-12-10 18:30:00');
+
+
+/* TEM DE DAR ERRO */
+insert into Solicita values (2000, timestamp '2018-12-10 16:30:00', 1000, timestamp '2018-12-10 17:30:00', timestamp '2018-12-10 18:30:00');
+
+/* ------------------------------------------------------------------------- */
+
+
+
+/* ------------------------- check_Alocado_trigger ------------------------- */
+
+/* Insercao dos resgistos */
+insert into MeioApoio values (2000, 'Entidade');
+
+
+/* Verificacao da insercao */
 select *
-from Video
-where numCamara = 116;
-
-insert into Solicita values (1, timestamp '2018-10-9 19:26:16', 116, timestamp '2018-12-06 15:46:00', timestamp '2018-12-06 16:00:00');
-
-insert into Solicita values (1, timestamp '2018-10-9 19:26:16', 1, timestamp '2018-12-06 15:46:00', timestamp '2018-12-06 16:00:00');
+from Acciona
+where nummeio = 2000 and
+      nomeEntidade = 'Entidade' and
+      numProcessoSocorro = 2000;
 
 
-/* check_Alocado_trigger */
+/* NAO PODE DAR ERRO */
+insert into Alocado values (2000, 'Entidade', interval '2 hours', 2000);
 
+
+/* TEM DE DAR ERRO */
+insert into Alocado values (2000, 'Entidade', interval '2 hours', 1000);
+
+/* ------------------------------------------------------------------------- */
 
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = */

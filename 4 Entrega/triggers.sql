@@ -79,19 +79,7 @@ for each row execute procedure check_Alocado();
 /* ------------------------ check_Solicita_trigger ------------------------ */
 
 /* Insercao dos resgistos */
-insert into Coordenador values (2000);
-insert into Camara values (2000);
-insert into Video values (timestamp '2018-12-10 16:30:00', timestamp '2018-12-10 17:00:00', 2000);
-
-insert into EntidadeMeio values ('Entidade');
-insert into Meio values (2000, 'Bolinhas', 'Entidade');
-
-insert into Local values ('Aqui');
-
-start transaction;
-insert into ProcessoSocorro values (2000);
 insert into EventoEmergencia values ('926626599', timestamp '2018-12-10 17:00:00', 'Eu', 'Aqui', 2000);
-commit;
 
 insert into Acciona values (2000, 'Entidade', 2000);
 
@@ -108,9 +96,6 @@ where T.idCoordenador = 2000 and
 
 
 /* Verificacao dos registos todos */
-select *
-from Solicita;
-
 select *
 from Solicita S
 where exists (

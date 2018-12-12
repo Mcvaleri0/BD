@@ -6,7 +6,7 @@ create or replace function check_Solicita()
 returns trigger as $body$
 begin
 
-  if not exists(
+  if not exists (
     select *
     from (Vigia natural join EventoEmergencia natural join Audita) T /* -> Cameras que o coordenador pode solicitar */
     where T.idCoordenador = new.idCoordenador and

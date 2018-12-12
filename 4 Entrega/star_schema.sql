@@ -1,12 +1,16 @@
-/* Drop all tables */
+/* = = = = = = = = = = = = = = Drop all tables = = = = = = = = = = = = = = */
+
 drop table if exists d_evento cascade;
 drop table if exists d_meio cascade;
 drop table if exists d_tempo cascade;
 drop table if exists facts cascade;
 
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = */
 
 
-/* Criar Tabelas */
+
+/* = = = = = = = = = = = = = = = Criar Tabelas = = = = = = = = = = = = = = = */
+
 create table d_evento (
     idEvento serial,
     numTelefone varchar(9) not null,
@@ -48,9 +52,13 @@ create table facts (
         on delete cascade on update cascade
 );
 
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = */
 
 
-/* Preencher tabelas */
+
+
+/* = = = = = = = = = = = = = = Preencher tabelas = = = = = = = = = = = = = = */
+
 insert into d_evento (numTelefone, instanteChamada)
     select numTelefone, instanteChamada
     from EventoEmergencia
@@ -74,14 +82,11 @@ insert into d_meio (numMeio, nomeMeio, nomeEntidade, tipo)
             select numMeio, nomeEntidade
             from Meio
             except
-            ( select *
-              from MeioApoio
+            ( select * from MeioApoio
               union
-              select *
-              from MeioSocorro
+              select * from MeioSocorro
               union
-              select *
-              from MeioCombate )
+              select * from MeioCombate )
             ) Meios_Sem_Tipo
         ) T_Meio
     order by numMeio, nomeEntidade, nomeMeio;
@@ -107,3 +112,4 @@ insert into facts (idEvento, idMeio, idData)
              extract(year from E.instantechamada) = T.ano)
     order by idEvento, idMeio, idData;
 
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = */

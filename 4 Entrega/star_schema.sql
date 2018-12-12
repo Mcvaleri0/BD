@@ -1,76 +1,109 @@
 /* Drop all tables */
-DROP TABLE IF EXISTS d_evento cascade;
-DROP TABLE IF EXISTS d_meio cascade;
-DROP TABLE IF EXISTS d_tempo cascade;
-drop table if exists fact cascade;
+drop table if exists d_evento cascade;
+drop table if exists d_meio cascade;
+drop table if exists d_tempo cascade;
+drop table if exists facts cascade;
+
+
 
 /* Criar Tabelas */
-create table d_evento(
-    idEvento        serial,
-    numTelefone     varchar(9) NOT NULL, 
-    instanteChamada timestamp  NOT NULL,
+create table d_evento (
+    idEvento serial,
+    numTelefone varchar(9) not null,
+    instanteChamada timestamp not null,
     primary key (idEvento)
 );
 
-create table d_meio(
-    idMeio       serial,
-    numMeio      integer      NOT NULL, 
-    nomeMeio     varchar(30)  NOT NULL, 
-    nomeEntidade varchar(200) NOT NULL, 
-    tipo         varchar(7)   NOT NULL,
+
+create table d_meio (
+    idMeio serial,
+    numMeio integer not null,
+    nomeMeio varchar(30) not null,
+    nomeEntidade varchar(200) not null,
+    tipo varchar(7) not null,
     primary key (idMeio)
 );
 
-create table d_tempo(
-    dia  integer,                      
-    mes  integer,
-    ano  integer,
-    primary key (dia, mes, ano)
+
+create table d_tempo (
+    idData serial,
+    dia integer not null,
+    mes integer not null,
+    ano integer not null,
+    primary key (idData)
 );
 
-create table fact(
-    idFact   serial,
-    idEvento integer,
-    idMeio   integer,
-    dia      integer,
-    mes      integer,
-    ano      integer,
-    nomePessoa varchar(80) not null,
-    moradaLocal varchar(255) not null,
-    numProcessoSocorro integer not null,
+
+create table facts (
+    idFact serial,
+    idEvento integer not null,
+    idMeio integer not null,
+    idData integer not null,
     primary key(idFact),
-    foreign key (idEvento)
-        references d_evento(idEvento) on delete cascade on update cascade,
-    foreign key (idMeio)
-        references d_meio(idMeio) on delete cascade on update cascade,
-    foreign key (dia, mes, ano)
-        references d_tempo(dia, mes, ano) on delete cascade on update cascade
+    foreign key (idEvento) references d_evento(idEvento)
+        on delete cascade on update cascade,
+    foreign key (idMeio) references d_meio(idMeio)
+      on delete cascade on update cascade,
+    foreign key (idData) references d_tempo(idData)
+        on delete cascade on update cascade
 );
+
 
 
 /* Preencher tabelas */
-
-INSERT INTO d_evento (numTelefone, instanteChamada)
-    SELECT numTelefone, instanteChamada 
-    FROM EventoEmergencia
+insert into d_evento (numTelefone, instanteChamada)
+    select numTelefone, instanteChamada
+    from EventoEmergencia
     order by instanteChamada, numtelefone;
 
-INSERT INTO d_meio (numMeio, nomeMeio, nomeEntidade, tipo)
+
+insert into d_meio (numMeio, nomeMeio, nomeEntidade, tipo)
     select *
     from (
-        SELECT numMeio, nomeMeio, nomeEntidade, 'Apoio' as tipo
-        FROM MeioApoio natural join Meio natural join Acciona
-        UNION
-        SELECT numMeio, nomeMeio, nomeEntidade, 'Socorro' as tipo
-        FROM MeioSocorro natural join Meio natural join Acciona
-        UNION
-        SELECT numMeio, nomeMeio, nomeEntidade, 'Combate' as tipo
-        FROM MeioCombate natural join Meio natural join Acciona
+        select numMeio, nomeMeio, nomeEntidade, 'Apoio'
+        from MeioApoio natural join Meio
+        union
+        select numMeio, nomeMeio, nomeEntidade, 'Socorro'
+        from MeioSocorro natural join Meio
+        union
+        select numMeio, nomeMeio, nomeEntidade, 'Combate'
+        from MeioCombate natural join Meio
+        union
+        select numMeio, nomeMeio, nomeEntidade, 'Nenhum'
+        from Meio natural join (
+            select numMeio, nomeEntidade
+            from Meio
+            except
+            ( select *
+              from MeioApoio
+              union
+              select *
+              from MeioSocorro
+              union
+              select *
+              from MeioCombate )
+            ) Meios_Sem_Tipo
         ) T_Meio
     order by numMeio, nomeEntidade, nomeMeio;
 
 
-INSERT INTO d_tempo (dia, mes, ano)
-    SELECT EXTRACT(DAY FROM instanteChamada) as dia, EXTRACT(MONTH FROM instanteChamada) as mes, EXTRACT(YEAR FROM instanteChamada) as ano
-    FROM EventoEmergencia
-    group by dia, mes, ano;
+insert into d_tempo (dia, mes, ano)
+    select extract(day from instanteChamada) as dia,
+           extract(months from instanteChamada) as mes,
+           extract(year from instanteChamada) as ano
+    from EventoEmergencia
+    order by ano, mes, dia;
+
+
+insert into facts (idEvento, idMeio, idData)
+    select idEvento, idMeio, idData
+    from d_evento
+        natural join EventoEmergencia E
+        natural join Acciona A
+        natural join d_meio M
+        inner join d_tempo T on
+            (extract(day from E.instantechamada) = T.dia and
+             extract(month from E.instantechamada) = T.mes and
+             extract(year from E.instantechamada) = T.ano)
+    order by idEvento, idMeio, idData;
+
